@@ -34,7 +34,10 @@
             </CollectionView.ItemTemplate>
 
         </CollectionView>
-
+        <Button Text="Eliminar producto"
+                Command="{Binding DeleteAllAsync}"
+                
+                />
         <Button Text="Comuniquese con Steven"
                 Command="{Binding AbrirWhatsappCommand}"
                 Background="Green"

@@ -16,7 +16,7 @@ namespace CafeteriaAppMaui
         {
             await DatabaseServices.Init();
             var productos = await DatabaseServices.GetProductosAsync();
-           if (productos.Any()) 
+           if (productos == null || productos.Count == 0) 
             {
                 await DatabaseServices.AddProductosAsync(new Productos {Nombre = "Yuquita", Precio = 50, cantidad = 35 });
                 await DatabaseServices.AddProductosAsync(new Productos { Nombre = "Arepa", Precio = 25, cantidad = 15 });

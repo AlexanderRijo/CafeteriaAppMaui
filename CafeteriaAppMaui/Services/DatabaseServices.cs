@@ -23,7 +23,11 @@ namespace CafeteriaAppMaui.Services
             await Init();
             return await db!.Table<Productos>().ToListAsync();
         }
-        
+
+        public static Task DeleteAllAsync()
+        {
+            return db!.DeleteAllAsync<Productos>();
+        }
         public static async Task AddProductosAsync(Productos producto)
         {
             await Init();
