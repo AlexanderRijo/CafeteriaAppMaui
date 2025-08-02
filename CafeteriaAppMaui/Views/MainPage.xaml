@@ -20,23 +20,23 @@
 
             <CollectionView.ItemTemplate >
                 <DataTemplate>
-                    <Frame BorderColor="Gray"
-                           Padding="10"
-                           CornerRadius="8">
+                    <Border
+                       Padding="10">
 
                         <VerticalStackLayout>
-                            <Label Text="Empty"/>
-                            <Label Text="Empty"/>
-                            <Label Text="Empty"/>
+                            <Label Text="{Binding Nombre}"/>
+                            <Label Text="{Binding Precio}"/>
+                            <Label Text="{Binding cantidad}"/>
                         </VerticalStackLayout>
 
-                    </Frame>
+                    <Border/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 
         </CollectionView>
 
         <Button Text="Comuniquese con Steven"
+                Command="{Binding AbrirWhatsappCommand}"
                 Background="Green"
                 TextColor="White"
                 CornerRadius="8"

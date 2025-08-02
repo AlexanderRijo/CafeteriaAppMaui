@@ -16,7 +16,7 @@ namespace CafeteriaAppMaui
         {
             await DatabaseServices.Init();
             var productos = await DatabaseServices.GetProductosAsync();
-            if (productos != null) 
+           if (productos.Any()) 
             {
                 await DatabaseServices.AddProductosAsync(new Productos {Nombre = "Yuquita", Precio = 50, cantidad = 35 });
                 await DatabaseServices.AddProductosAsync(new Productos { Nombre = "Arepa", Precio = 25, cantidad = 15 });
@@ -26,7 +26,7 @@ namespace CafeteriaAppMaui
                 await DatabaseServices.AddProductosAsync(new Productos { Nombre = "Jugos", Precio = 50, cantidad = 25 });
             }
         }
-
+           
         protected override Window CreateWindow(IActivationState? activationState)
         {
             return new Window(new AppShell());

@@ -22,7 +22,7 @@ namespace CafeteriaAppMaui.ViewModels
             LoadProducts();
         }
 
-        partial void OnSearchTextChanged(strin)
+        partial void OnSearchTextChanged(string value)
         {
             FilterProducts();
 
