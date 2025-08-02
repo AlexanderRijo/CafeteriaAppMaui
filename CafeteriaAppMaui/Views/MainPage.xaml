@@ -1,49 +1,75 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CafeteriaAppMaui.ViewModels"
              x:Class="CafeteriaAppMaui.MainPage"
-             xmlns:vm="clr-namespace:CafeteriaAppMaui.ViewModels" >
+             x:Name="RootPage">
 
     <ContentPage.BindingContext>
         <vm:MainViewModel/>
     </ContentPage.BindingContext>
 
-    <VerticalStackLayout Padding="20" Spacing="10" >
+    <VerticalStackLayout Padding="20" Spacing="10">
 
+        <!-- Búsqueda -->
+        <Entry Placeholder="Buscar Producto..."
+               Text="{Binding SearchText}" />
 
-        <Entry Placeholder="Buscar Producto... "
-              Text="{Binding SearchText}"/>
-
+        <!-- Lista de productos -->
         <CollectionView ItemsSource="{Binding FilteredProducts}"
                         ItemsLayout="VerticalGrid, 3"
                         Margin="0,10">
-
-            <CollectionView.ItemTemplate >
+            <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border
-                       Padding="10">
+                    <Frame BorderColor="LightGray"
+                           CornerRadius="10"
+                           BackgroundColor="DarkGray"
+                           Padding="15"
+                           HasShadow="True"
+                           Margin="5">
 
-                        <VerticalStackLayout>
-                            <Label Text="{Binding Nombre}"/>
-                            <Label Text="{Binding Precio}"/>
-                            <Label Text="{Binding cantidad}"/>
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="{Binding Nombre}" 
+                                   FontAttributes="Bold" 
+                                   FontSize="14"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="{Binding Precio, StringFormat='Precio: {0:C}'}"
+                                   FontSize="13"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="{Binding cantidad, StringFormat='Cantidad: {0}'}"
+                                   FontSize="12"
+                                   HorizontalTextAlignment="Center" />
+
+                            <!-- Botón Eliminar individual -->
+                            <Button Text="Eliminar"
+                                    BackgroundColor="Red"
+                                    TextColor="White"
+                                    FontSize="12"
+                                    CornerRadius="6"
+                                    Padding="4"
+                                    Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.DeleteProductCommand}"
+                                    CommandParameter="{Binding .}" />
                         </VerticalStackLayout>
 
-                    </Border>
+                    </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-
         </CollectionView>
-        <Button Text="Eliminar producto"
+
+        <!-- Eliminar todos -->
+        <Button Text="Eliminar todos los productos"
                 Command="{Binding DeleteAllAsync}"
-                
-                />
-        <Button Text="Comuniquese con Steven"
-                Command="{Binding AbrirWhatsappCommand}"
-                Background="Green"
+                BackgroundColor="DarkRed"
                 TextColor="White"
                 CornerRadius="8"
-                />
+                Margin="0,10,0,0" />
+
+        <!-- Botón WhatsApp -->
+        <Button Text="Comuníquese con Steven"
+                Command="{Binding AbrirWhatsappCommand}"
+                BackgroundColor="Green"
+                TextColor="White"
+                CornerRadius="8" />
 
     </VerticalStackLayout>
 

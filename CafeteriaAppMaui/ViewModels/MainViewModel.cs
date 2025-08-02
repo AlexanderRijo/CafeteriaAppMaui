@@ -3,12 +3,12 @@ using CafeteriaAppMaui.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace CafeteriaAppMaui.ViewModels
 {
     public partial class MainViewModel : ObservableObject
     {
-
         public ObservableCollection<Productos> Productos { get; } = new();
 
         [ObservableProperty]
@@ -17,15 +17,24 @@ namespace CafeteriaAppMaui.ViewModels
         [ObservableProperty]
         private string searchText;
 
+        public ICommand DeleteProductCommand { get; }
+
         public MainViewModel()
         {
+            DeleteProductCommand = new Command<Productos>(async (product) => await DeleteProductAsync(product));
             LoadProducts();
+        }
+
+        private async Task DeleteProductAsync(Productos product)
+        {
+            await DatabaseServices.DeleteProductoAsync(product.ID);
+            FilteredProducts.Remove(product);
+            Productos.Remove(product);
         }
 
         partial void OnSearchTextChanged(string value)
         {
             FilterProducts();
-
         }
 
         private async void LoadProducts()
@@ -39,14 +48,15 @@ namespace CafeteriaAppMaui.ViewModels
 
         private void FilterProducts()
         {
-            if (string.IsNullOrWhiteSpace(searchText)) {
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
                 FilteredProducts = new ObservableCollection<Productos>(Productos);
-
             }
             else
             {
                 var lower = searchText.ToLower();
-                FilteredProducts = new ObservableCollection<Productos>(Productos.Where(p => p.Nombre.ToLower().Contains(lower)));
+                FilteredProducts = new ObservableCollection<Productos>(
+                    Productos.Where(p => p.Nombre.ToLower().Contains(lower)));
             }
         }
 
@@ -63,7 +73,5 @@ namespace CafeteriaAppMaui.ViewModels
                 await Shell.Current.DisplayAlert("ERROR", "ete whatsapp no quiere abrir", "OK");
             }
         }
-    
-
     }
 }
